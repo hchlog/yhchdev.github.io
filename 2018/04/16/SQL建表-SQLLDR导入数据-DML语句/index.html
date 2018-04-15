@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>SQL建表,SQLLDR导入数据,DML语句 | Yhchdev</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">SQL建表,SQLLDR导入数据,DML语句</h1><a id="logo" href="/.">Yhchdev</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a><a href="/liuyan/"><i class="fa null"> liuyan</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">SQL建表,SQLLDR导入数据,DML语句</h1><div class="post-meta">Apr 16, 2018</div><div class="post-content"><h2 id="建表语句"><a href="#建表语句" class="headerlink" title="建表语句"></a>建表语句</h2><pre><code>create table tablename
+(
+name1 varchar2(15) primary key,
+name2 char,
+name3 data,
+name4 nubmber(p,s)
+)
+</code></pre><h4 id="创建带主键约束的表-primary-key"><a href="#创建带主键约束的表-primary-key" class="headerlink" title="创建带主键约束的表(primary key)"></a>创建带主键约束的表(primary key)</h4><pre><code>create table ClassInfo
+(
+classid varchar2(15) primary key,
+classname varchar2(50) not null,
+classdesc varchar2(100)
+)
+</code></pre><h4 id="创建带外键约束的表-foreing-key"><a href="#创建带外键约束的表-foreing-key" class="headerlink" title="创建带外键约束的表(foreing key)"></a>创建带外键约束的表(foreing key)</h4><pre><code>create table StudInfo
+(
+studno varchar2(15) primary key,
+studname varchar2(20) not null,
+studsex char(2) check (studsex in (&apos;男&apos;,&apos;女&apos;)),
+studbirthday date,
+classid varchar(10) not null,
+constraint FK_classid foreing key (classid) 
+references classinfo(classid)//学生信息表依赖于班级信息表,班级ID为学生信息表的外键
+)
+</code></pre><h4 id="创建联合主键约束的表-constraint-PK-duoble-primary-key-one-two"><a href="#创建联合主键约束的表-constraint-PK-duoble-primary-key-one-two" class="headerlink" title="创建联合主键约束的表{constraint PK_duoble primary key (one,two)}"></a>创建联合主键约束的表{constraint PK_duoble primary key (one,two)}</h4><pre><code>create table StudScoreInfo
+(
+studno varchar2(15) not null,
+courseid varchar2(15) not null,
+studscore number(4,1) check(studscore&gt;=0 and studscore&lt;=100),
+constraint PK_double primary key (studno,courseid)
+//将学生ID和课程ID同时作为主键约束该表
+)
+</code></pre><h4 id="创建带check约束条件的表"><a href="#创建带check约束条件的表" class="headerlink" title="创建带check约束条件的表"></a>创建带check约束条件的表</h4><pre><code>studsex char(2) check (studsex in (&apos;男&apos;,&apos;女&apos;))
+//性别只能为男或女
+studscore number(4,1) check (studsccore between 0 and 100)
+//分数的取值范围为 0 ~ 100
+</code></pre><h2 id="通过脚本导入数据"><a href="#通过脚本导入数据" class="headerlink" title="通过脚本导入数据"></a>通过脚本导入数据</h2><p> 将保存在Excel中的数据另存为以 <em>.csv</em> 结尾的纯文本文件,它的每一行代表一条记录,字段之间用 ‘ , ‘分割</p>
+<ol>
+<li><p>编写控制文件(文件扩展名.ctl)</p>
+<p>load data infile ‘D:\classinfo.csv’ //指定要导入的数据源(位置&amp;文件名)<br>append into tablename[classinfo] //要导入数据表的表名<br>fields terminated by ‘,’ //表明字段之间的分割符是逗号,如果是空格分割  by X’09’<br>（字段1，字段2，字段3…）//数据库中表名的字段名</p>
+<p>load data infile ‘D:\classinfo.csv’<br>appendinto into classinfo<br>fields terminated by ‘,’<br>(classid,classname,classdesc)</p>
+</li>
+</ol>
+<p>  2.执行控制文件</p>
+<pre><code>sqlldr userid=yhch/passwrod123@193.112.77.165/oracle control=&apos;c:\loadclassinfo.ctl&apos;
+</code></pre><h2 id="DML语句"><a href="#DML语句" class="headerlink" title="DML语句"></a>DML语句</h2><h4 id="插入数据-insert"><a href="#插入数据-insert" class="headerlink" title="插入数据(insert)"></a>插入数据(insert)</h4><ul>
+<li>简单插入</li>
+</ul>
+<pre><code>insert into tablename(字段1，字段2，字段3) values (value1,value2,value3)
+</code></pre><ul>
+<li>将数据导入到已存在的表中</li>
+</ul>
+<pre><code>insert into tablename
+select * from studinfo
+</code></pre><ul>
+<li>将一张表的数据插入到新表</li>
+</ul>
+<pre><code>create table newtablename as
+select * from studinfo
+</code></pre><h4 id="修改数据-update"><a href="#修改数据-update" class="headerlink" title="修改数据(update)"></a>修改数据(update)</h4><pre><code>update tablename set 字段=newvalue where 更新条件
+
+update studinfo set studname = 钱||substr(studname,2)
+where studname like &apos;赵%&apos;
+//将姓赵的同学改为姓钱
+</code></pre><h4 id="删除数据-delete"><a href="#删除数据-delete" class="headerlink" title="删除数据(delete)"></a>删除数据(delete)</h4><ul>
+<li>删除表 </li>
+</ul>
+<pre><code>drop table tablename
+</code></pre><ul>
+<li>删除数据</li>
+</ul>
+<pre><code>delect from tsablename where 删除条件
+
+delect from studinfo where studname=&apos;杨浩成&apos;
+</code></pre></div><iframe src="/donate/?AliPayQR=/img/AliPayQR.jpg&amp;WeChatQR=/img/WeChatQR.png&amp;GitHub=null&amp;BTCQR=null&amp;BTCKEY=null&amp;PayPal=null" style="overflow-x:hidden; overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;" frameborder="0" scrolling="no"></iframe><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/04/13/hexo+github搭建个人博客/">hexo + github 搭建个人博客</a></div><div id="lv-container" data-id="city" data-uid="MTAyMC8zNTcwNS8xMjI0MQ=="><script>(function(d, s) {
+   var j, e = d.getElementsByTagName(s)[0];
+   if (typeof LivereTower === 'function') { return; }
+   j = d.createElement(s);
+   j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+   j.async = true;
+   e.parentNode.insertBefore(j, e);
+})(document, 'script');
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://yoursite.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/16/SQL建表-SQLLDR导入数据-DML语句/">SQL建表,SQLLDR导入数据,DML语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/hexo+github搭建个人博客/">hexo + github 搭建个人博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/Markdown常用语法/">Markdown常用语法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Yhchdev.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async="async"></script><span id="busuanzi_container_site_pv">|访问量<span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv">|访客数<span id="busuanzi_value_site_uv"> </span></span></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
