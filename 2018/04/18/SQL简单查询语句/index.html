@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>SQL简单查询语句 | Yhchdev</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">SQL简单查询语句</h1><a id="logo" href="/.">Yhchdev</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a><a href="/liuyan/"><i class="fa null"> liuyan</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">SQL简单查询语句</h1><div class="post-meta">Apr 18, 2018</div><div class="post-content"><p>sql语言使用SELECT语句来实现数据的查询,并按要求检索数据,将查询结以表格的形式返回</p>
+<h4 id="SELECT-查询语句结构"><a href="#SELECT-查询语句结构" class="headerlink" title="SELECT 查询语句结构"></a>SELECT 查询语句结构</h4><pre><code>SELECT select_list
+[INTO new_table_name] //将查询出的结果集创建并存至新表中
+FROM tablename
+WHERE 限定返回行的搜索条件
+GROUP BY  结果集的分组条件
+HAVING  结果集的附加筛选条件
+ORDER BY 排序方法（DESC OR ASC）
+</code></pre><h4 id="SELECT-子句"><a href="#SELECT-子句" class="headerlink" title="SELECT 子句"></a>SELECT 子句</h4><p>1.定义别名(AS 关键字  或 空格)</p>
+<pre><code>SELECT studname AS 学生姓名,studbirthday 出生日期,classid 所属班级
+FROM Studinfo
+</code></pre><p><img src="/2018/04/18/SQL简单查询语句/1.png" alt="别名运算"></p>
+<p>2.列连接</p>
+<p>   sqlsever用 +，oracle 用 ||</p>
+<pre><code>SELECT studno || studname AS studindex ,studsex
+FROM Studinfo
+</code></pre><p><img src="/2018/04/18/SQL简单查询语句/2.png" alt="字段连接"></p>
+<p>3.DISTINCT关键字</p>
+<p>使用distinct关键字去除重复记录</p>
+<pre><code>SELECT DISTINCT(studname),studno,studname,studsex,studbirthday,classid 
+From Studinfo;
+</code></pre><p>4.空值判断(is NULL)</p>
+<pre><code>SELECT * FROM Studinfo
+WHERE studbirthday is null //查询生日信息为空值的的学生信息 
+</code></pre><p>5.Top-N分析</p>
+<p>当我们要取前10条记录时</p>
+<p>sqlsever 使用TOP关键字</p>
+<pre><code>SELECT TOP10 × FROM Studinfo
+</code></pre><p>oracle没有TOP关键字但可以通过ROWNUM取前几条数据</p>
+<pre><code>SELECT * FROM Sstudinfo
+where rownum&lt;=10
+</code></pre><h4 id="WHERE子句"><a href="#WHERE子句" class="headerlink" title="WHERE子句"></a>WHERE子句</h4><p>where字句用于限制返回的行的查询条件</p>
+<p>1.比较查询 (&gt;,&lt;=,between..and.. , ….)</p>
+<pre><code>SELECT * FROM Studscore WHERE STUDSCORE &gt;90 
+</code></pre><p>2.逻辑运算(and,or,not)</p>
+<pre><code>SELECT * FROM Stuinfo
+where studsx=&apos;女&apos; and classid = &apos;201611520&apos;
+</code></pre><p>3.模糊查询(LIKE关键字)</p>
+<p>%包含零个或多个字符的任意字符串<br>_单个字符串</p>
+<pre><code>SELECT * FROM Studinfo WHERE studname like &apos;杨%&apos;
+//查询姓杨的学生的学生信息
+SELECT * FROM Studinfo WHERE studname like &apos;_浩_&apos;
+//查询名字为3个字，且第二个字为‘浩’的同学的基本信息
+</code></pre><h4 id="GROUP-BY-子句"><a href="#GROUP-BY-子句" class="headerlink" title="GROUP BY 子句"></a>GROUP BY 子句</h4><p>结果集的分组条件</p>
+<p>按指定的条件进行分类汇总，如果SELECT子句中包含聚合函数则，计算每组的汇总值</p>
+<ul>
+<li><p>注意</p>
+<p>在使用GROUP BY 子句时,在SELECT子句中,只能出现GROUP BY分组字段和聚合函数</p>
+</li>
+</ul>
+<pre><code>SELECT studno,count(*) FROM Studinfo
+GROUP BY Studno  //从学生成绩表查询，各同学所参考的课程门数
+</code></pre><h4 id="HAVING-子句"><a href="#HAVING-子句" class="headerlink" title="HAVING 子句"></a>HAVING 子句</h4><p>附加筛选条件</p>
+<pre><code>SELECT studno,avg(score) Avgscore
+FROM studscoreinfo 
+WHERE avg(studscore)&lt;60
+GROUP BY studno 
+HAVING  COUNT(*)&gt;10
+//统计重修10门课程以上的学生平均成绩
+</code></pre><h4 id="ORDER-BY-子句"><a href="#ORDER-BY-子句" class="headerlink" title="ORDER BY 子句"></a>ORDER BY 子句</h4><p>ASC升序; DESC降序</p>
+<pre><code>SELECT studno,AVG(Studscore)
+FROM Studinfo
+GROUP BY Studno
+ORDER BY DESC 
+//统计各学生所有课程平均分，并按降序排序
+</code></pre><h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>1.写出在学生信息表（StudInfo）中得到不重复姓名，性别的 SQL 语句。</p>
+<pre><code>select distinct studname,studsex from studinfo
+</code></pre><p>2． 写出在学生成绩信息表(StudScoreInfo)中查询学号为 20010505001 并且课程成绩大于 80<br>的学生成绩记录的 SQL 语句。</p>
+<pre><code>select * from studscoreinfo
+where studno=20010505001 and studscore&gt;80
+</code></pre><p>3． 写出在学生成绩信息表(StudScoreInfo)中查询成绩在 80 到 90 之间的所有学生成绩记录<br>的 SQL 语句。（利用 BETWEEN…And 或&gt;=、&lt;=两种方法实现）</p>
+<pre><code>select * from studscoreinfo
+where studscore between 80 and 90
+
+
+
+
+select * from studscoreinfo
+where studscore&gt;=80 and studscore&lt;=90
+</code></pre><p>4.写出在学生成绩信息表(StudScoreInfo)中查询成绩不在 80 到 90 之间的所有学生成绩记<br>录的 SQL 语句。(利用 NOT 或 OR 两种方法实现)</p>
+<pre><code>select * from studscoreinfo
+where studscore not between 80 and 90
+
+
+
+select * from studscoreinfo
+where studscore&lt;80 or studscore&gt;90
+</code></pre><p>5.写出在学生信息表(StudInfo)查询姓名为程竹、李丹、王飞的学生信息记录（用 IN、OR<br>两种方法实现）。</p>
+<pre><code>select * from studinfo
+where studname in (&apos;程竹&apos;,&apos;李丹&apos;,&apos;王飞&apos;)
+
+
+
+select * from studinfo
+where studname=&apos;程竹&apos; or studname=&apos;李丹&apos; or studname=&apos;王飞&apos;
+</code></pre><p>6.写出在学生信息表(StudInfo)中查询姓名中含有丽字的所有学生信息的 SQL 语句。</p>
+<pre><code>select * from studinfo
+where studname like &apos;%丽%&apos;
+</code></pre><p>7．写出在学生信息表(StudInfo)中查询姓名中第三个字为丽的所有学生信息的 SQL 语句。</p>
+<pre><code>select * from studinfo
+where studname like &apos;__丽&apos;
+</code></pre><p>8． 在学生成绩表(StudScoreInfo)中，写出查询学号为 990708012 前 5 门课程成绩记录的 SQL<br>语句</p>
+<pre><code>select  *  from studscoreinfo
+where studno=&apos;990708012&apos; and rownum &lt;=5
+</code></pre><p>9． 写出在学生信息表(StudInfo)中查询出生日期为空值的 SQL 语句。</p>
+<pre><code>select * from studinfo
+where studbirthday is null
+</code></pre><p>10.在学生成绩表(StudScoreInfo)中，将学号为 20010505001 的成绩按高低排序。</p>
+<pre><code>select * from studscoreinfo
+where studno = 20010505001
+order by studscore desc 
+</code></pre><p>11．在学生成绩表(StudScoreInfo)中，将学号为 990708012 且成绩低于 60 的成绩提高 50%</p>
+<p>显示。</p>
+<pre><code>select studno,courseid,studscore*1.5 as studscoreimprove 
+from studscoreinfo
+where studno=&apos;990708012&apos; and studscore&lt;60
+</code></pre><p>12． 写出在学生信息表(StudInfo)中,查询 1986 年 10 月以后出生的学生信息，要求学<br>号与姓名连接在一起取别名。</p>
+<pre><code>select studno || studname as studnoname ,studbirthday
+from studinfo
+where studbirthday&gt;=to_date(&apos;1986-11-01&apos;,&apos;yyyy-mm-dd&apos;)
+</code></pre><p>13． 写出在学生成绩信息表(StudScoreInfo)中统计学号为 20010505001 的成绩总分、成<br>绩平均分、所修课程门数的 SQL 语句。</p>
+<pre><code>select sum(studscore) as sumscore, avg(studscore) as avgscore , count(courseid) countcourse
+from studscoreinfo
+where studno=&apos;20010505001&apos;
+</code></pre><p>14． 写出在学生成绩信息表(StudScoreInfo)中统计各学生平均分的 SQL 语句，并按平均<br>分高低排序。</p>
+<pre><code>select studno,avg(studscore) as avgscore 
+from studscoreinfo
+group by studno
+order by avgscore desc
+</code></pre><p>15． 写出在学生成绩信息表(StudScoreInfo)中统计各学生平均分、课程门数的 SQL 语<br>句。</p>
+<pre><code>select studno ,avg(studscore) 平均成绩,count(*) 课程门数
+from studscoreinfo
+group by studno
+</code></pre><p>16． 写出在学生成绩信息表(StudScoreInfo)中统计各课程平均分、参考人数、最高分、<br>最低分的 SQL 语句。</p>
+<pre><code>select courseid 课程编号,avg(studscore) 平均成绩,count(*) 参考人数, max(studscore) 最高成绩, min(studscore) as 最小成绩
+from studscoreinfo
+group by courseid
+</code></pre><p>17． 在学生成绩信息表(StudScoreInfo)中，统计学号以 20010505 开头的平均分 80 以下<br>的学生成绩信息。</p>
+<pre><code>select studno 学号, avg(studscore)  平均成绩 
+from studscoreinfo 
+where studno like &apos;20010505%&apos;
+group by studno
+having avg(studscore)&lt;85
+</code></pre><p>18． 在学生成绩信息表(StudScoreInfo)中，统计平均分为 85 以上，所修课程为 30 门以<br>上的学生成绩记录。</p>
+<pre><code>select studno,avg(studscore) 平均成绩,count(*) 所修课程门数
+from studscoreinfo
+group by studno
+having avg(stuscorescore)&gt;80 and count(*)&gt;30
+</code></pre><p>19． 在学生成绩信息表(StudScoreInfo)中，统计重修（成绩小于 60）门数为 10 门以上<br>的学生成绩信息。</p>
+<pre><code>select studno,avg(studscore) avgscore
+from studscoreinfo
+where studscore&lt;60
+group by studno
+having count(*)&gt;10
+</code></pre><p>20． 双表关联查询，在学生信息表(StudInfo)和学生成绩表(StudScoreInfo)中，查询出学号、姓名、成绩、课程编号。</p>
+<pre><code>select s.studno,studname,si.studscore,courseid
+from studinfo s,studscoreinfo si
+where s.studno=si.studno
+</code></pre><p>21． 多表关联查询，在学生信息表(StudInfo)、学生成绩表(StudScoreInfo)、班级信息表<br>(ClassInfo)、课程信息表(CourseInfo)中找出学号、姓名、班级编号、班级名称、课程编<br>号、课程名称、课程成绩。</p>
+<pre><code>select s.studno,studname,c.courseid,coursename,studscore
+from studinfo s,studscoreinfo si,courseinfo c
+where s.studno=si.studno and si.courseid=c.courseid
+</code></pre><p>22． 双表关联统计，例如：在学生成绩信息表(StudScoreInfo)和课程信息表(CourseInfo)中，写出统计各门课程平均分、所修人数、课程最高分、课程最低分的 SQL语句，包括课程编号、课程名称、课程平均分、课程最高分、课程最低分、所修人数查询字段，并按平均分高低排序。</p>
+<pre><code>select s.courseid 课程编号,c.coursename 课程名称,
+avg(studscore) 平均分,count(*) 所修人数 ,max(studscore) 最高分,min(studscore) 最低分
+from studscoreinfo s,courseinfo c
+where s.courseid=c.courseid
+group by s.courseid,c.coursename
+order by 平均分 desc
+</code></pre></div><iframe src="/donate/?AliPayQR=/img/AliPayQR.jpg&amp;WeChatQR=/img/WeChatQR.png&amp;GitHub=null&amp;BTCQR=null&amp;BTCKEY=null&amp;PayPal=null" style="overflow-x:hidden; overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;" frameborder="0" scrolling="no"></iframe><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/04/16/SQL建表-SQLLDR导入数据-DML语句/">SQL建表,SQLLDR导入数据,DML语句</a></div><div id="lv-container" data-id="city" data-uid="MTAyMC8zNTcwNS8xMjI0MQ=="><script>(function(d, s) {
+   var j, e = d.getElementsByTagName(s)[0];
+   if (typeof LivereTower === 'function') { return; }
+   j = d.createElement(s);
+   j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+   j.async = true;
+   e.parentNode.insertBefore(j, e);
+})(document, 'script');
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://yoursite.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/SQL简单查询语句/">SQL简单查询语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/16/SQL建表-SQLLDR导入数据-DML语句/">SQL建表,SQLLDR导入数据,DML语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/hexo+github搭建个人博客/">hexo + github 搭建个人博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/Markdown常用语法/">Markdown常用语法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Yhchdev.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async="async"></script><span id="busuanzi_container_site_pv">|访问量<span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv">|访客数<span id="busuanzi_value_site_uv"> </span></span></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
