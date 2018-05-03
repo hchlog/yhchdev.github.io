@@ -57,7 +57,7 @@
 <li>右连接 right join (<strong>右表所有行出现</strong>，左表仅返回匹配的行)</li>
 </ul>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> studinfo</span><br><span class="line"><span class="keyword">right</span> <span class="keyword">join</span> classinfo <span class="keyword">using</span>(classid)</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/05/03/SQL之高级查询/picthfive.PNG" alt="picfive"></p>
+<p><img src="/2018/05/03/SQL之高级查询/picfive.PNG" alt="picfive"></p>
 <p>最后返回了619条记录，classinfo是右表它的所有记录都显示</p>
 <h4 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h4><p>在SQL语言中，当一个查询语句嵌套在另一个查询的查询条件之中称为<strong>嵌套查询</strong>，又称为<strong>子查询</strong>。嵌套查询是指在一个外层查询中包含另外一个内层查询，其中外层查询称为主查询，内层查询称为子查询，通常情况下嵌套查询中的子查询先挑选中部分数据，以作为外层查询的数据来源或搜素条件，子查询都是写在圆括号中，允许使用表大式的地方都可以嵌套子查询</p>
 <ul>
