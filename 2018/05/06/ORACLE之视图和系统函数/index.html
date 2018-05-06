@@ -17,7 +17,7 @@
 <li>使用视图</li>
 </ul>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> V_StudAvgScore</span><br></pre></td></tr></table></figure>    
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/picone" alt="picone"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/picone.PNG" alt="picone"></p>
 <h4 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h4><h5 id="什么是序列"><a href="#什么是序列" class="headerlink" title="什么是序列?"></a>什么是序列?</h5><p>序列(SEQUENCE)是<strong>序列号生成器</strong>，可以为表中的行自动生成序列号(经常与<strong>触发器</strong>配合使用，从而实现<strong>ID的自动增长</strong>)，产生一组等间隔的数值(类型为数字)。不占用磁盘空间，占用内存。其主要用途是生成表的主键值，可以在插入语句中引用，也可以通过查询检查当前值，或使序列增至下一个值。</p>
 <h5 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h5><h5 id="创建序列"><a href="#创建序列" class="headerlink" title="创建序列"></a>创建序列</h5><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">create</span> <span class="selector-tag">sequence</span> <span class="selector-attr">[sequencename]</span></span><br><span class="line"><span class="selector-attr">[increment by n]</span> <span class="comment">//步长,如果省略，则默认为1,可以是负数表示递减</span></span><br><span class="line"><span class="selector-attr">[start with n]</span><span class="comment">//序列的初值</span></span><br><span class="line"><span class="selector-attr">[maxvalue n]</span><span class="comment">//序列的最大值</span></span><br><span class="line"><span class="selector-attr">[minvalue n]</span><span class="comment">//序列的最小值,</span></span><br><span class="line"><span class="selector-attr">[&#123;cycle | nocycle&#125;]</span> <span class="comment">//序列达到最大值是否循环</span></span><br><span class="line"><span class="selector-attr">[&#123;cache n | nocache&#125;]</span> <span class="comment">//缓存区的大小</span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -31,7 +31,7 @@
 <li>nextval–返回序列的下一个可用值</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> TestSeq</span><br><span class="line">(</span><br><span class="line">AutoID <span class="built_in">int</span>,</span><br><span class="line"><span class="keyword">Name</span> varchar2(<span class="number">20</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">//创建序列</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">sequence</span> SeqID</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">with</span> <span class="number">1001</span>//初始值</span><br><span class="line"><span class="keyword">increment</span> <span class="keyword">by</span> <span class="number">1</span> //步长</span><br><span class="line"></span><br><span class="line">//触发器实现自动编号</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">trigger</span> trig_Testseq</span><br><span class="line"><span class="keyword">before</span> <span class="keyword">insert</span> <span class="keyword">on</span> TestSeq</span><br><span class="line"><span class="keyword">for</span> <span class="keyword">each</span> <span class="keyword">row</span></span><br><span class="line"><span class="keyword">declare</span> AID <span class="built_in">int</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">select</span> seqid.nextval <span class="keyword">into</span> AID <span class="keyword">from</span> dual;</span><br><span class="line">    :new.AutoID:=AID;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>    
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/pictwo" alt="pictwo"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/pictwo.PNG" alt="pictwo"></p>
 <ul>
 <li><p>PS</p>
 <p><strong>这里的序列出现断层(跳号)，是什么原因？</strong></p>
@@ -46,7 +46,7 @@
 <li>upper(column|expression):转换字符值为大写 </li>
 <li>initcap(column|expression):转换每个单词的首字母为大写，其他所有字母为小写</li>
 </ol>
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/picthree" alt="picthree"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/picthree.PNG" alt="picthree"></p>
 <ul>
 <li>CONCAT 连接字符函数</li>
 </ul>
@@ -67,7 +67,7 @@
 <p> –若不指定n返回到字符串结束的所有字符</p>
 </li>
 </ol>
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/picfour" alt="picfour"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/picfour.PNG" alt="picfour"></p>
 <ul>
 <li>LENGTH 求字符串的长度</li>
 </ul>
@@ -197,10 +197,10 @@
 </li>
 </ul>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法: extract(<span class="built_in">year</span>/moth/<span class="built_in">day</span> <span class="keyword">from</span> studbirthday)</span><br><span class="line">select extract(<span class="built_in">year</span> <span class="keyword">from</span> studbirthday) birthyear <span class="keyword">from</span> studinfo</span><br></pre></td></tr></table></figure>    
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/picfive" alt="picfive"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/picfive.PNG" alt="picfive"></p>
 <h5 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h5><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CASE</span> <span class="keyword">WHEN</span> boolean_expr1 <span class="keyword">THEN</span> return_expr1</span><br><span class="line">     [<span class="keyword">WHEN</span> boolean_expr2 <span class="keyword">THEN</span> return_expr2</span><br><span class="line">     <span class="keyword">WHEN</span> boolean_exprn <span class="keyword">THEN</span> return_exprn</span><br><span class="line">     <span class="keyword">ELSE</span> else_expr]</span><br><span class="line"><span class="keyword">END</span> 列别名</span><br></pre></td></tr></table></figure>    
 <p>示列: 在学生成绩信息表(StudScoreInfo)和学生信息表(StudInfo)中将求出的平均分按以下等级输出。（包括学号，姓名，性别，出生日期，平均分，等级字段）<br>平均分 等级<br>90—100 ‘优秀’<br>80—90 ‘优良’<br>70—80 ‘一般’<br>60—70 ‘及格’<br>60 以下 ‘不及格’<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> studno,studname, 平均分,</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">when</span> 平均分 <span class="keyword">between</span> <span class="number">90</span> <span class="keyword">and</span> <span class="number">100</span> <span class="keyword">then</span> <span class="string">'优秀'</span></span><br><span class="line">     <span class="keyword">when</span> 平均分 <span class="keyword">between</span> <span class="number">80</span> <span class="keyword">and</span> <span class="number">90</span> <span class="keyword">then</span> <span class="string">'优良'</span> </span><br><span class="line">     <span class="keyword">when</span> 平均分 <span class="keyword">between</span> <span class="number">70</span> <span class="keyword">and</span> <span class="number">80</span> <span class="keyword">then</span> <span class="string">'一般'</span></span><br><span class="line">     <span class="keyword">when</span> 平均分 <span class="keyword">between</span> <span class="number">60</span> <span class="keyword">and</span> <span class="number">70</span> <span class="keyword">then</span> <span class="string">'及格'</span></span><br><span class="line"><span class="keyword">else</span> <span class="string">'不及格'</span> <span class="keyword">end</span> <span class="string">"等级"</span></span><br><span class="line"><span class="keyword">from</span> V_studavgscoreCourseCountUp20</span><br></pre></td></tr></table></figure>    </p>
-<p><img src="/2018/05/06/ORACLE之视图和系统函数/picsix" alt="picsix"></p>
+<p><img src="/2018/05/06/ORACLE之视图和系统函数/picsix.PNG" alt="picsix"></p>
 <h4 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h4><ol>
 <li>找出平均分最高的前 10 个学生成绩统计信息（包括学号、平均分、课程门数）</li>
 </ol>
