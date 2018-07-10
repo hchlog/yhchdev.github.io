@@ -1463,7 +1463,7 @@ em.search-keyword {
   clear: both;
   margin-right: auto;
   margin-left: auto;
-  height: 35px; }
+  height: 5px; }
 
 .tech .describe {
   font-family: "Microsoft Yahei";
@@ -1537,8 +1537,8 @@ em.search-keyword {
 @media (max-width: 750px) {
   .tech .describe {
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     text-align: left; }
   .tech .progress {
     width: 100%;
-    margin-bottom: 5px; } }
+    margin-bottom: 0px; } }
