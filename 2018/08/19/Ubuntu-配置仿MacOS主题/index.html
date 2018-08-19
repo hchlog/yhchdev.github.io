@@ -7,24 +7,21 @@
 <p>登录界面也要有苹果的Logo (＞д＜)</p>
 <p><img src="https://yhch-1256238121.cos.ap-chengdu.myqcloud.com/%5BUbuntu%5D%20%E9%85%8D%E7%BD%AE%E4%BB%BFMacOS%E4%B8%BB%E9%A2%98/1298835628.jpg" alt="image"></p>
 <p>完蛋了，如此赤裸裸的抄袭，你还要脸不。没有，没有这怎么能算抄袭，这是致敬苹果公司的设计思。</p>
-<h4 id="Tweak安装"><a href="#Tweak安装" class="headerlink" title="Tweak安装"></a>Tweak安装</h4><p>安装主题设置工具:Tweaks</p>
-<pre><code>sudo apt update
-sudo apt install gnome-tweak-tool
-</code></pre><p>安装完成后，开启最小化和最大化按钮，并将它们靠左显示<br>同时在Extensions选项里开启User thems选项，用于将来设置主题任务栏的显示效果</p>
+<h4 id="Tweak安装"><a href="#Tweak安装" class="headerlink" title="Tweak安装"></a>Tweak安装</h4><p>安装主题设置工具:Tweaks<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">sudo apt <span class="keyword">update</span></span><br><span class="line">sudo apt <span class="keyword">install</span> gnome-tweak-tool</span><br></pre></td></tr></table></figure>  </p>
+<p>安装完成后，开启最小化和最大化按钮，并将它们靠左显示<br>同时在Extensions选项里开启User thems选项，用于将来设置主题任务栏的显示效果</p>
 <p><img src="https://yhch-1256238121.cos.ap-chengdu.myqcloud.com/%5BUbuntu%5D%20%E9%85%8D%E7%BD%AE%E4%BB%BFMacOS%E4%B8%BB%E9%A2%98/Selection_002.bmp" alt="image"></p>
 <h5 id="界面优化"><a href="#界面优化" class="headerlink" title="界面优化"></a>界面优化</h5><h5 id="1-主题配置"><a href="#1-主题配置" class="headerlink" title="1.主题配置"></a>1.主题配置</h5><p><a href="https://www.opendesktop.org/c/1460761561" target="_blank" rel="noopener">macOS主题下载</a>,有日间模式和暗夜模式的主题,可以选择性的下载，最好多下载几个，之后可以通过Tweaks工具进行选择，不同的主题，选择最喜欢的那一个。将这些主题解压到 /usr/share/themes路径下，<br>之后，打开 Gnome Tweak Tool，在“外观”选项卡中设置。</p>
 <p>解压并移动到主题所在的路径下面：</p>
-<pre><code>tar xvf Sierra-dark-thin.tar.xz
-mv -i Sierra-dark-thin /usr/share/thme
-</code></pre><h5 id="2-应用程序图标配置"><a href="#2-应用程序图标配置" class="headerlink" title="2.应用程序图标配置"></a>2.应用程序图标配置</h5><p><a href="https://www.opendesktop.org/s/Gnome/p/1102582/" target="_blank" rel="noopener">macOS应用程序图标下载</a>，这里有MacOS11，应用程序的图标，同样先下载并解压到usr/share/icons/目录下,最后在Gnome Tweak Tool，在“图标”选项卡中设置</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">tar xvf Sierra-dark-thin<span class="selector-class">.tar</span><span class="selector-class">.xz</span></span><br><span class="line">mv -<span class="selector-tag">i</span> Sierra-dark-thin /usr/share/thme</span><br></pre></td></tr></table></figure> 
+<h5 id="2-应用程序图标配置"><a href="#2-应用程序图标配置" class="headerlink" title="2.应用程序图标配置"></a>2.应用程序图标配置</h5><p><a href="https://www.opendesktop.org/s/Gnome/p/1102582/" target="_blank" rel="noopener">macOS应用程序图标下载</a>，这里有MacOS11，应用程序的图标，同样先下载并解压到usr/share/icons/目录下,最后在Gnome Tweak Tool，在“图标”选项卡中设置</p>
 <h5 id="3-修改桌面shell"><a href="#3-修改桌面shell" class="headerlink" title="3.修改桌面shell"></a>3.修改桌面shell</h5><p><a href="https://www.opendesktop.org/s/Gnome/p/1013741/" target="_blank" rel="noopener">macOs桌面shell下载</a>。解压后将文件夹放到/usr/share/themes/目录下,最后通过Tweaks进行设置。</p>
 <p>所有选项在Tweaks中的设置如下：</p>
 <p><img src="https://yhch-1256238121.cos.ap-chengdu.myqcloud.com/%5BUbuntu%5D%20%E9%85%8D%E7%BD%AE%E4%BB%BFMacOS%E4%B8%BB%E9%A2%98/Selection_012.bmp" alt="image"></p>
 <h4 id="开机画面替换"><a href="#开机画面替换" class="headerlink" title="开机画面替换"></a>开机画面替换</h4><p><a href="https://www.opendesktop.org/c/1460753388" target="_blank" rel="noopener">Mac开机动画下载</a>。</p>
 <p>把解压的文件移动到/usr/share/plymouth/themes/目录下</p>
 <p>。然后去修改默认的开机画面配置文件/etc/alternatives/default.plymouth</p>
-<pre><code>vi /etc/alteernatives/default.plymouth
-</code></pre><p><img src="https://yhch-1256238121.cos.ap-chengdu.myqcloud.com/%5BUbuntu%5D%20%E9%85%8D%E7%BD%AE%E4%BB%BFMacOS%E4%B8%BB%E9%A2%98/Selection_013.bmp" alt="image"></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">vi <span class="regexp">/etc/</span>alteernatives/<span class="keyword">default</span>.plymouth</span><br></pre></td></tr></table></figure> 
+<p><img src="https://yhch-1256238121.cos.ap-chengdu.myqcloud.com/%5BUbuntu%5D%20%E9%85%8D%E7%BD%AE%E4%BB%BFMacOS%E4%B8%BB%E9%A2%98/Selection_013.bmp" alt="image"></p>
 <p>default.plymouth文件指定了一个资源文件夹，文件夹中有一个执行脚本（执行开机动画）。那么把这个资源文件夹和脚本替换刚刚下载的文件夹和文件名就行了，当然，路径要是正确的。</p>
 <h4 id="投喂我"><a href="#投喂我" class="headerlink" title="投喂我"></a>投喂我</h4><p>写文不易，如果本文对你有帮助，点击Donate,微信和支付宝投喂我</p>
 </div><iframe src="/donate/?AliPayQR=/img/AliPayQR.jpg&amp;WeChatQR=/img/WeChatQR.png&amp;GitHub=null&amp;BTCQR=null&amp;BTCKEY=null&amp;PayPal=null" style="overflow-x:hidden; overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;" frameborder="0" scrolling="no"></iframe><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/08/07/Python3爬虫-selenium爬取淘宝商品信息/">[Python3爬虫]selenium爬取淘宝商品信息</a></div><div id="lv-container" data-id="city" data-uid="MTAyMC8zNTcwNS8xMjI0MQ=="><script>(function(d, s) {
